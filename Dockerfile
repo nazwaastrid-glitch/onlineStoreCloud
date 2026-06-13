@@ -1,6 +1,6 @@
 FROM php:8.1-apache
 
-# Install sistem dependensi
+# 1. Install sistem dependensi yang dibutuhkan
 RUN apt-get update && apt-get install -y \
     libpng-dev \
     libonig-dev \
@@ -8,19 +8,20 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip
 
-# Install PHP extensions
+# 2. Install PHP extensions
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 
-# Aktifkan rewrite module
+# 3. Aktifkan rewrite module untuk Laravel routing
 RUN a2enmod rewrite
 
-# Setup DocumentRoot ke public
-RUN sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available/000-default.conf
-
-# Salin file proyek
+# 4. Copy seluruh file proyek Anda
 COPY . /var/www/html/
 
-# Izin folder (Penting untuk Laravel)
+# 5. Arahkan akses web ke folder 'public' (karena Laravel butuh ini)
+RUN sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available/000-default.conf
+
+# 6. Beri izin akses folder storage (PENTING untuk Laravel)
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
+# 7. Port standar
 EXPOSE 80
