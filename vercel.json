@@ -1,4 +1,9 @@
 {
+  "build": {
+    "env": {
+      "APP_STORAGE": "/tmp/storage"
+    }
+  },
   "functions": {
     "api/index.php": {
       "runtime": "vercel-php@0.7.2"
