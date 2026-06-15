@@ -1,19 +1,13 @@
 <?php
-// Buat direktori jika belum ada
-if (!is_dir('/tmp/storage/framework/cache')) {
-    mkdir('/tmp/storage/framework/cache', 0755, true);
-}
-if (!is_dir('/tmp/storage/framework/views')) {
-    mkdir('/tmp/storage/framework/views', 0755, true);
-}
-if (!is_dir('/tmp/storage/logs')) {
-    mkdir('/tmp/storage/logs', 0755, true);
-}
-if (!is_dir('/tmp/bootstrap/cache')) {
-    mkdir('/tmp/bootstrap/cache', 0755, true);
-}
-// Arahkan ke file autoload dan app dari struktur standar Laravel
+
 require __DIR__ . '/../vendor/autoload.php';
+
+// Pastikan direktori ini ada di /tmp
+$tmpDirs = ['/tmp/storage/framework/cache', '/tmp/storage/framework/views', '/tmp/storage/logs', '/tmp/bootstrap/cache'];
+foreach ($tmpDirs as $dir) {
+    if (!is_dir($dir)) mkdir($dir, 0755, true);
+}
+
 $app = require_once __DIR__ . '/../bootstrap/app.php';
 
 $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
